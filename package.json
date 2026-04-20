@@ -1,0 +1,19 @@
+{
+  "name": "igaming-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:apps": "pnpm --filter \"./apps/*\" dev",
+    "dev:proxy": "sudo node gateway.js",
+    "dev": "concurrently \"pnpm run dev:apps\" \"pnpm run dev:proxy\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "concurrently": "^9.2.1",
+    "http-proxy": "^1.18.1"
+  }
+}

@@ -321,7 +321,7 @@ function TopHeader() {
       <div className="flex items-center gap-2 ml-auto lg:ml-0 shrink-0">
         <Select defaultValue="today">
           <SelectTrigger className="h-8 text-xs bg-zinc-900 border-zinc-700 text-zinc-300 w-32 focus:ring-0">
-            <SelectValue />
+            <SelectValue placeholder="Today" />
           </SelectTrigger>
           <SelectContent className="bg-zinc-900 border-zinc-700 text-zinc-200 text-xs">
             <SelectItem value="today">Today</SelectItem>
@@ -335,7 +335,7 @@ function TopHeader() {
         <div className="hidden sm:block">
           <Select defaultValue="CET">
             <SelectTrigger className="h-8 text-xs bg-zinc-900 border-zinc-700 text-zinc-300 w-20 focus:ring-0">
-              <SelectValue />
+              <SelectValue placeholder="CET" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-900 border-zinc-700 text-zinc-200 text-xs">
               <SelectItem value="CET">CET</SelectItem>
@@ -476,7 +476,8 @@ function ChartRow() {
           </div>
         </CardHeader>
         <CardContent className="px-4 pt-0 pb-4">
-          <ResponsiveContainer width="100%" height={300}>
+          <div className="w-full h-[300px] min-h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={ngrGgrData} margin={{ top: 4, right: 4, left: -12, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorNGR" x1="0" y1="0" x2="0" y2="1">
@@ -523,6 +524,7 @@ function ChartRow() {
               />
             </AreaChart>
           </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
@@ -534,7 +536,8 @@ function ChartRow() {
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pt-0 pb-4 flex flex-col items-center">
-          <ResponsiveContainer width="100%" height={300}>
+          <div className="w-full h-[300px] min-h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={providerData}
@@ -556,6 +559,7 @@ function ChartRow() {
               />
             </PieChart>
           </ResponsiveContainer>
+          </div>
           <div className="space-y-2 w-full mt-1">
             {providerData.map((item, i) => (
               <div key={item.name} className="flex items-center justify-between">
