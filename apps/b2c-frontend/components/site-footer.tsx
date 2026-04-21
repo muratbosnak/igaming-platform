@@ -1,5 +1,12 @@
 import Image from 'next/image'
-import { brand } from '@/lib/brand.config'
+import { getBrandConfig } from '@/lib/brand.config'
+
+interface SiteFooterProps {
+  /** Tenant id from the dynamic `[tenant]` route segment. Used to resolve
+   *  both the brand config (jurisdiction, name, tagline) and the artwork
+   *  path on disk. */
+  tenantId: string
+}
 
 /**
  * MGA-compliant footer (RSC).
@@ -8,12 +15,14 @@ import { brand } from '@/lib/brand.config'
  *   - Mobile: vertical stack (`flex-col`)
  *   - Desktop (md+): horizontal columns (`md:grid md:grid-cols-4`)
  *
- * Includes placeholders for regulatory text, license badge slot, 18+ badge
- * and responsible-gambling links — all required for MGA jurisdictions.
+ * Includes placeholders for regulatory text, license badge slot, 18+
+ * badge and responsible-gambling links — all required for MGA
+ * jurisdictions.
  */
-export function SiteFooter() {
+export function SiteFooter({ tenantId }: SiteFooterProps) {
   const year = new Date().getFullYear()
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  const brand = getBrandConfig(tenantId)
 
   return (
     <footer className="mt-16 border-t border-brand-border bg-brand-surface/40">
@@ -21,7 +30,7 @@ export function SiteFooter() {
         <div className="flex flex-col gap-10 md:grid md:grid-cols-4 md:gap-8">
           <div className="flex flex-col gap-3">
             <Image
-              src={`${basePath}/brands/kinetika/images/brand/logo-white.png`}
+              src={`${basePath}/brands/${tenantId}/images/brand/logo-white.png`}
               alt={brand.name}
               width={200}
               height={40}
@@ -35,6 +44,9 @@ export function SiteFooter() {
 
           <FooterColumn
             title="Casino"
+            headingWeight={brand.typography.footerHeadingWeight}
+            headingSize={brand.typography.footerHeadingSize}
+            linkWeight={brand.typography.footerLinkWeight}
             links={[
               { label: 'Slots', href: '/casino/slots' },
               { label: 'Live Casino', href: '/live-casino' },
@@ -44,6 +56,9 @@ export function SiteFooter() {
           />
           <FooterColumn
             title="Help"
+            headingWeight={brand.typography.footerHeadingWeight}
+            headingSize={brand.typography.footerHeadingSize}
+            linkWeight={brand.typography.footerLinkWeight}
             links={[
               { label: 'Support', href: '/support' },
               { label: 'Banking', href: '/banking' },
@@ -53,6 +68,9 @@ export function SiteFooter() {
           />
           <FooterColumn
             title="Responsible Gaming"
+            headingWeight={brand.typography.footerHeadingWeight}
+            headingSize={brand.typography.footerHeadingSize}
+            linkWeight={brand.typography.footerLinkWeight}
             links={[
               { label: 'Self-exclusion', href: '/responsible/self-exclusion' },
               { label: 'Deposit limits', href: '/responsible/limits' },
@@ -91,14 +109,23 @@ export function SiteFooter() {
 
 function FooterColumn({
   title,
+  headingWeight,
+  headingSize,
+  linkWeight,
   links,
 }: {
   title: string
+  headingWeight: 600 | 700 | 800
+  headingSize: string
+  linkWeight: 400 | 500 | 600
   links: { label: string; href: string }[]
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-foreground/90">
+      <h2
+        className="uppercase tracking-wider text-brand-foreground"
+        style={{ fontWeight: headingWeight, fontSize: headingSize }}
+      >
         {title}
       </h2>
       <ul className="flex flex-col gap-2">
@@ -106,7 +133,8 @@ function FooterColumn({
           <li key={link.href}>
             <a
               href={link.href}
-              className="text-sm text-brand-muted transition-colors hover:text-brand-foreground"
+              className="text-sm text-brand-foreground transition-colors hover:underline"
+              style={{ fontWeight: linkWeight }}
             >
               {link.label}
             </a>

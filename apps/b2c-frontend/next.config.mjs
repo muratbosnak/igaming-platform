@@ -9,10 +9,20 @@
  * inlines `NEXT_PUBLIC_*` at build time, giving us zero-runtime-cost
  * symmetry between server and browser.
  *
+ * `allowedDevOrigins` lists every hostname `next dev` will accept HMR /
+ * RSC requests from. Each tenant is exposed locally on a subdomain
+ * (`<tenant>.localhost`) so the proxy in `proxy.ts` can resolve it; that
+ * subdomain must therefore be allow-listed here or Next refuses the
+ * cross-origin dev assets.
+ *
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? '',
-  allowedDevOrigins: ['muratbosnak'],
+  allowedDevOrigins: [
+    'muratbosnak',
+    'kinetika.localhost',
+    'mbcasino.localhost',
+  ],
 };
 export default nextConfig;

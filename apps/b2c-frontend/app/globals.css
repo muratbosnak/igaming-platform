@@ -49,4 +49,22 @@ html,
 body {
   background-color: var(--color-brand-background);
   color: var(--color-brand-foreground);
+  /*
+   * `--font-brand` is set per-tenant on <html> by `app/[tenant]/layout.tsx`.
+   * The var() fallback kicks in only when no tenant layout has mounted
+   * (e.g. a generic 404 or during the very first parse before inline
+   * styles apply) so the page still renders in a usable system face
+   * instead of a bare serif default.
+   */
+  font-family: var(
+    --font-brand,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif
+  );
 }

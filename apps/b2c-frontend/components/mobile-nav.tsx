@@ -7,6 +7,10 @@ import type { BrandNavItem } from '@/lib/brand.config'
 import { BrandLogo } from './brand-logo'
 
 interface MobileNavProps {
+  /** Tenant id from the dynamic `[tenant]` route segment. Forwarded to
+   *  `BrandLogo` inside the drawer so the wordmark resolves to the
+   *  correct artwork on disk regardless of which operator we serve. */
+  tenantId: string
   items: BrandNavItem[]
   brandName: string
 }
@@ -18,7 +22,7 @@ interface MobileNavProps {
  *   detection — so SSR markup matches client hydration (zero hydration risk).
  * - Locks body scroll while open and restores focus to the trigger on close.
  */
-export function MobileNav({ items, brandName }: MobileNavProps) {
+export function MobileNav({ tenantId, items, brandName }: MobileNavProps) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -67,7 +71,7 @@ export function MobileNav({ items, brandName }: MobileNavProps) {
         )}
       >
         <div className="flex h-16 items-center justify-between border-b border-brand-border px-4">
-          <BrandLogo />
+          <BrandLogo tenantId={tenantId} />
           <button
             type="button"
             aria-label="Close menu"

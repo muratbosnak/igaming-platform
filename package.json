@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev:apps": "pnpm --filter \"./apps/*\" dev",
-    "dev:proxy": "sudo node gateway.js",
-    "dev": "concurrently \"pnpm run dev:apps\" \"pnpm run dev:proxy\""
+    "dev:proxy": "sudo node local-proxy.js",
+    "dev": "concurrently \"pnpm run dev:apps\" \"pnpm run dev:proxy\"",
+    "proxy": "node local-proxy.js"
   },
   "keywords": [],
   "author": "",
