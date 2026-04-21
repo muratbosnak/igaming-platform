@@ -1,37 +1,30 @@
+import Image from 'next/image'
 import { brand } from '@/lib/brand.config'
 
 /**
- * Server-rendered SVG wordmark. Intentionally inline (no network cost, no CLS,
- * no `use client`) and themed via `currentColor` + brand tokens.
+ * Server-rendered brand wordmark. Uses the static colored logo asset served
+ * from the brand's public/ folder. `unoptimized` keeps the same bytes served
+ * by the CDN/edge and avoids Next's image optimizer pipeline for a small,
+ * already-optimized transparent PNG.
  */
 export function BrandLogo({ className }: { className?: string }) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
   return (
     <a
       href="/"
       aria-label={`${brand.name} — home`}
       className={className}
     >
-      <span className="flex items-center gap-2">
-        <span
-          aria-hidden
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-primary to-brand-accent shadow-[0_0_24px_-6px_var(--color-brand-primary)]"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            className="h-4 w-4 text-brand-primary-contrast"
-            aria-hidden
-          >
-            <path
-              d="M5 4v16l6-8-6-8Zm7 0 7 8-7 8V4Z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
-        <span className="text-lg font-semibold tracking-tight text-brand-foreground">
-          {brand.name}
-        </span>
-      </span>
+      <Image
+        src={`${basePath}/brands/kinetika/images/brand/logo-colored.png`}
+        alt={brand.name}
+        width={200}
+        height={40}
+        priority
+        unoptimized
+        className="h-8 w-auto"
+      />
     </a>
   )
 }

@@ -5,6 +5,13 @@ import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
 /**
+ * Next's metadata resolver does NOT auto-prefix `basePath` for icon URLs (only
+ * for route-level links), so we prepend `NEXT_PUBLIC_BASE_PATH` manually to
+ * keep favicons reachable when the app runs behind the proxy gateway.
+ */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
+/**
  * Root Metadata — localized + SEO-ready.
  *
  * - `title.template` means individual pages only need a short `title` and the
@@ -23,6 +30,19 @@ export const metadata: Metadata = {
   keywords: ['online casino', 'slots', 'live casino', 'megaways', brand.name],
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      {
+        media: '(prefers-color-scheme: light)',
+        url: `${basePath}/brands/kinetika/images/brand/favicon-light.ico`,
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: `${basePath}/brands/kinetika/images/brand/favicon-dark.ico`,
+      },
+    ],
+    apple: `${basePath}/brands/kinetika/images/brand/apple-touch-icon.png`,
+  },
   openGraph: {
     type: 'website',
     locale: brand.locale.replace('-', '_'),

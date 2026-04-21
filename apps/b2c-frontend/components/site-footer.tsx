@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { brand } from '@/lib/brand.config'
 
 /**
@@ -12,15 +13,21 @@ import { brand } from '@/lib/brand.config'
  */
 export function SiteFooter() {
   const year = new Date().getFullYear()
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
   return (
     <footer className="mt-16 border-t border-brand-border bg-brand-surface/40">
       <div className="w-full px-4 py-10 md:px-8 md:py-12 lg:px-12">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-4 md:gap-8">
           <div className="flex flex-col gap-3">
-            <span className="text-base font-semibold text-brand-foreground">
-              {brand.name}
-            </span>
+            <Image
+              src={`${basePath}/brands/kinetika/images/brand/logo-white.png`}
+              alt={brand.name}
+              width={200}
+              height={40}
+              unoptimized
+              className="h-8 w-auto self-start"
+            />
             <p className="text-sm leading-relaxed text-brand-muted">
               {brand.tagline}
             </p>

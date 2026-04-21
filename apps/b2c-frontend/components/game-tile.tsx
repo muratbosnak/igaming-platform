@@ -1,57 +1,71 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import type { Game } from '@/lib/games'
 
 /**
- * Dark placeholder tile — CLS-safe + zero JS.
+ * Proxy-aware base path.
  *
- * - Strictly `aspect-[3/4]` so the grid reserves height before paint.
- * - Hover state (desktop): whole tile scales 1.05 and a "Play Now" overlay
- *   fades in. Implemented with Tailwind's `group-hover:` — no JS handlers.
- * - Focus state mirrors hover for keyboard users.
+ * Next.js applies `basePath` automatically to `<Link>` and to optimised
+ * `<Image>` requests, but **not** to `unoptimized` images — those render
+ * the raw `src` verbatim. When the app is served behind a subpath proxy
+ * (e.g. `/igaming-platform/B2C-frontend/...`) the browser therefore asks
+ * for `/brands/...` at the root origin and gets a 404.
+ *
+ * `NEXT_PUBLIC_BASE_PATH` is inlined at build time by Next, so referencing
+ * it here keeps this file a Server Component and still gives the correct
+ * value on the client for hydration parity.
+ */
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
+/**
+ * Square game tile — CLS-safe, zero client JS.
+ *
+ * - 1:1 aspect ratio (`aspect-square`) so the grid reserves height before
+ *   paint and the swimlane doesn't reflow once images decode.
+ * - Default state shows the artwork only. No gradient, no text. Any metadata
+ *   (title, provider, CTA) is revealed inside a dark hover overlay.
+ * - Hover overlay is **desktop-only** (`md:` prefixed). On touch devices we
+ *   never enter a sticky `:hover` state — tapping the wrapping `<Link>` fires
+ *   navigation immediately.
+ * - Focus state mirrors hover for keyboard users on desktop breakpoints.
  */
 export function GameTile({ game }: { game: Game }) {
-  const [from, to] = game.palette
   return (
-    <a
+    <Link
       href={`/game/${game.id}`}
       aria-label={`${game.title} by ${game.provider}`}
-      className="group relative block aspect-[3/4] overflow-hidden rounded-xl bg-brand-surface outline-none ring-brand-primary/60 transition-transform duration-200 ease-out will-change-transform focus-visible:ring-2 md:hover:scale-[1.05] md:focus-visible:scale-[1.05]"
+      className="group relative block aspect-square overflow-hidden rounded-xl bg-brand-surface outline-none ring-brand-primary/60 transition-transform duration-200 ease-out will-change-transform focus-visible:ring-2 md:hover:scale-[1.03] md:focus-visible:scale-[1.03]"
       style={{ contain: 'paint' }}
     >
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(120% 80% at 20% 15%, ${from} 0%, transparent 55%), radial-gradient(100% 80% at 85% 85%, ${to} 0%, transparent 55%), linear-gradient(180deg, #0b1220 0%, #111c33 100%)`,
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.75)_0%,rgba(0,0,0,0.1)_55%,transparent_100%)]"
+      <Image
+        src={`${BASE_PATH}${game.imageSrc}`}
+        alt=""
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 33vw, (max-width: 1200px) 20vw, 15vw"
+        unoptimized
       />
 
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 p-3 md:p-4">
-        <span className="text-[11px] font-medium uppercase tracking-wider text-brand-foreground/70">
-          {game.provider}
-        </span>
-        <span className="text-sm font-semibold leading-tight text-brand-foreground md:text-base">
-          {game.title}
-        </span>
-      </div>
-
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/45 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 md:flex"
+        className="pointer-events-none absolute inset-0 hidden bg-black/80 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 md:block"
       >
-        <span className="inline-flex h-11 items-center justify-center rounded-full bg-brand-primary px-5 text-sm font-semibold text-brand-primary-contrast shadow-[0_12px_32px_-12px_var(--color-brand-primary)]">
+        <span className="absolute left-1/2 top-1/2 inline-flex h-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap rounded-full bg-brand-primary px-4 text-sm font-semibold text-brand-primary-contrast shadow-[0_12px_32px_-12px_var(--color-brand-primary)]">
           Play Now
-          <svg viewBox="0 0 24 24" className="ml-1.5 h-4 w-4" fill="none" aria-hidden>
-            <path
-              d="M8 5v14l11-7L8 5Z"
-              fill="currentColor"
-            />
+          <svg viewBox="0 0 24 24" className="ml-2 h-4 w-4" fill="none" aria-hidden>
+            <path d="M8 5v14l11-7L8 5Z" fill="currentColor" />
           </svg>
         </span>
+
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 p-3 md:p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-primary">
+            {game.provider}
+          </span>
+          <span className="line-clamp-2 text-sm font-bold leading-tight text-white">
+            {game.title}
+          </span>
+        </div>
       </div>
-    </a>
+    </Link>
   )
 }
