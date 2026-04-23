@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { compare } from 'bcryptjs'
 import { prisma } from '@igaming/database'
+import { canAccessB2BAdmin } from '@/lib/auth-policy'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -30,7 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             where: { email },
           })
 
-          if (!user?.isSuperAdmin) {
+          if (!user || !canAccessB2BAdmin(user)) {
             return null
           }
 
@@ -43,6 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             id: user.id,
             email: user.email,
             isSuperAdmin: user.isSuperAdmin,
+            isActive: user.isActive,
           }
         } catch (err) {
           console.error('[auth] authorize error:', err)
@@ -57,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id
         token.email = user.email
         token.isSuperAdmin = user.isSuperAdmin
+        token.isActive = user.isActive
       }
       return token
     },
@@ -67,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           session.user.email = token.email
         }
         session.user.isSuperAdmin = Boolean(token.isSuperAdmin)
+        session.user.isActive = Boolean(token.isActive)
       }
       return session
     },

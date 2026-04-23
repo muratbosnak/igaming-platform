@@ -1,20 +1,6 @@
 'use client'
 
 import {
-  LayoutDashboard,
-  Activity,
-  Users,
-  Wallet,
-  Share2,
-  Scale,
-  Shield,
-  AlertCircle,
-  Gauge,
-  Rocket,
-  Layers,
-  Network,
-} from 'lucide-react'
-import {
   SidebarNav,
   TopHeader,
   KPICards,
@@ -23,7 +9,6 @@ import {
   DashboardTable,
 } from '@igaming/ui'
 import type {
-  NavSection,
   KPIData,
   FeedEvent,
   TableColumn,
@@ -31,43 +16,7 @@ import type {
   PieChartConfig,
 } from '@igaming/ui'
 import { logoutAction } from '@/app/actions'
-
-// ─── Navigation ───────────────────────────────────────────────────────────────
-
-const navSections: NavSection[] = [
-  {
-    label: 'OPERATIONS',
-    items: [
-      { label: 'Network Overview', icon: LayoutDashboard, active: true },
-      { label: 'Live API Monitor', icon: Activity },
-      { label: 'Tenant Management', icon: Users },
-    ],
-  },
-  {
-    label: 'FINANCIALS',
-    items: [
-      { label: 'Network Settlements', icon: Wallet },
-      { label: 'Rev-Share Engine', icon: Share2 },
-      { label: 'Tax & Compliance', icon: Scale },
-    ],
-  },
-  {
-    label: 'RISK & INFRA',
-    items: [
-      { label: 'Global Risk Engine', icon: Shield, badge: '2', badgeVariant: 'alert' },
-      { label: 'Incident Management', icon: AlertCircle },
-      { label: 'Rate Limits', icon: Gauge },
-    ],
-  },
-  {
-    label: 'PLATFORM',
-    items: [
-      { label: 'Deployment Manager', icon: Rocket },
-      { label: 'White-Label Config', icon: Layers },
-      { label: 'API Gateway', icon: Network },
-    ],
-  },
-]
+import { getB2BAdminNavSections } from './navigation'
 
 // ─── KPIs ─────────────────────────────────────────────────────────────────────
 
@@ -279,7 +228,7 @@ export function DashboardPage({ userEmail, isSuperAdmin }: DashboardPageProps) {
     <div className="flex h-screen w-full flex-col lg:flex-row overflow-hidden bg-zinc-950 text-zinc-50">
       <SidebarNav
         brand={{ name: 'B2B Admin', abbr: 'B2B' }}
-        sections={navSections}
+        sections={getB2BAdminNavSections('network-overview')}
         colorScheme="emerald"
         user={sidebarUser}
         onLogout={logoutAction}

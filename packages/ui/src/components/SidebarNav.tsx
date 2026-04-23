@@ -9,6 +9,7 @@ export type NavItem = {
   label: string
   icon: React.ComponentType<{ className?: string }>
   active?: boolean
+  href?: string
   badge?: string
   badgeVariant?: 'alert' | 'warn'
 }
@@ -77,29 +78,46 @@ export function SidebarNav({
             <ul className="space-y-0.5">
               {section.items.map((item) => {
                 const Icon = item.icon
+                const itemClassName = `w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-[13px] transition-colors ${
+                  item.active
+                    ? `${t.navActiveBg} ${t.navActiveText} font-medium`
+                    : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100'
+                }`
                 return (
                   <li key={item.label}>
-                    <button
-                      className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-[13px] transition-colors ${
-                        item.active
-                          ? `${t.navActiveBg} ${t.navActiveText} font-medium`
-                          : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 shrink-0" />
-                      <span className="truncate">{item.label}</span>
-                      {item.badge && (
-                        <span
-                          className={`ml-auto text-[10px] rounded px-1.5 py-0 font-semibold border ${
-                            item.badgeVariant === 'alert'
-                              ? 'bg-red-950 text-red-400 border-red-800'
-                              : 'bg-amber-950 text-amber-400 border-amber-800'
-                          }`}
-                        >
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
+                    {item.href ? (
+                      <a href={item.href} className={itemClassName}>
+                        <Icon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{item.label}</span>
+                        {item.badge && (
+                          <span
+                            className={`ml-auto text-[10px] rounded px-1.5 py-0 font-semibold border ${
+                              item.badgeVariant === 'alert'
+                                ? 'bg-red-950 text-red-400 border-red-800'
+                                : 'bg-amber-950 text-amber-400 border-amber-800'
+                            }`}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                      </a>
+                    ) : (
+                      <button className={itemClassName}>
+                        <Icon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{item.label}</span>
+                        {item.badge && (
+                          <span
+                            className={`ml-auto text-[10px] rounded px-1.5 py-0 font-semibold border ${
+                              item.badgeVariant === 'alert'
+                                ? 'bg-red-950 text-red-400 border-red-800'
+                                : 'bg-amber-950 text-amber-400 border-amber-800'
+                            }`}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                      </button>
+                    )}
                   </li>
                 )
               })}

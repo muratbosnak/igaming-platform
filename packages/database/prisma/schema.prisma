@@ -32,6 +32,8 @@ model BackofficeUser {
   email        String   @unique
   passwordHash String
   isSuperAdmin Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  deactivatedAt DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -39,6 +41,16 @@ model BackofficeUser {
   createdById String?
   createdBy   BackofficeUser?  @relation("UserCreatedBy", fields: [createdById], references: [id])
   invitedUsers BackofficeUser[] @relation("UserCreatedBy")
+
+  /// Self-referencing: who deactivated this user
+  deactivatedById String?
+  deactivatedBy   BackofficeUser?  @relation("UserDeactivatedBy", fields: [deactivatedById], references: [id])
+  deactivatedUsers BackofficeUser[] @relation("UserDeactivatedBy")
+
+  /// Self-referencing: who last updated this user
+  updatedById String?
+  updatedBy   BackofficeUser?  @relation("UserUpdatedBy", fields: [updatedById], references: [id])
+  updatedUsers BackofficeUser[] @relation("UserUpdatedBy")
 
   operatorAccess UserOperatorAccess[]
 }
@@ -48,6 +60,7 @@ model UserOperatorAccess {
   userId     String
   operatorId String
   role       BackofficeRole
+  isActive   Boolean        @default(true)
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 

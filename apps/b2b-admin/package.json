@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "hash": "tsx scripts/hash.ts"
+    "hash": "tsx scripts/hash.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@igaming/database": "workspace:*",
@@ -16,7 +17,9 @@
     "next": "16.2.4",
     "next-auth": "beta",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sonner": "^1.7.4",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,6 +31,7 @@
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
     "tsx": "^4.19.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.5"
   }
 }
