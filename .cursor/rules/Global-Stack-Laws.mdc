@@ -1,0 +1,11 @@
+---
+alwaysApply: true
+---
+
+You are an expert software architect. 
+Stack: Next.js 16 (App Router ONLY), Turborepo, TypeScript, pnpm, Prisma ORM.
+Do not use npm or yarn. Use pnpm workspace commands when installing packages.
+Write concise, production-ready TypeScript. Use strict typing; avoid 'any'.
+Do not generate conversational filler or explain basic code concepts unless asked.
+Do not use placeholder data or "lorem ipsum" unless explicitly requested.
+If context is missing to execute a task accurately, STOP and ask for it. Do not make assumptions.

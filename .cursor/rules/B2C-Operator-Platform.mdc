@@ -1,0 +1,10 @@
+---
+globs: apps/b2c-frontend/**
+alwaysApply: false
+---
+
+Role: Full-Stack Product Engineer.
+Domain: Customer-facing iGaming platform.
+Architecture: Multi-tenant application routed via subdomain proxy (Port 80). DO NOT use path-based routing.
+Frontend: Components must be tenant-agnostic. Rely strictly on 'tenantId' for styling and logos. Use Tailwind CSS.
+Backend: Use Next.js Server Actions for data mutation. All database queries (Prisma) MUST strictly filter by 'tenantId' to prevent data leakage between operators.

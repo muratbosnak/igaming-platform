@@ -1,0 +1,10 @@
+---
+globs: apps/*-admin/**
+alwaysApply: false
+---
+
+Role: Full-Stack System Architect.
+Domain: Internal operations and B2B management dashboards.
+Frontend: Focus on high-density data visualization, complex forms, and Tailwind CSS UI components.
+Backend: Use Next.js Server Actions. Prioritize high security, strict Role-Based Access Control (RBAC), and complex Prisma aggregations. 
+Never expose raw database IDs to the client without authorization checks. Ensure robust error handling (try/catch) for all data mutations.

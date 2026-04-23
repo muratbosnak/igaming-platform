@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum BackofficeRole {
+  ADMIN
+  MARKETING
+  CUSTOMER_SUPPORT
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model Operator {
+  id        String   @id @default(uuid())
+  name      String
+  domain    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userAccess UserOperatorAccess[]
+}
+
+model BackofficeUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  isSuperAdmin Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  /// Self-referencing: who invited this user
+  createdById String?
+  createdBy   BackofficeUser?  @relation("UserCreatedBy", fields: [createdById], references: [id])
+  invitedUsers BackofficeUser[] @relation("UserCreatedBy")
+
+  operatorAccess UserOperatorAccess[]
+}
+
+model UserOperatorAccess {
+  id         String         @id @default(uuid())
+  userId     String
+  operatorId String
+  role       BackofficeRole
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  user     BackofficeUser @relation(fields: [userId], references: [id])
+  operator Operator       @relation(fields: [operatorId], references: [id])
+
+  @@unique([userId, operatorId])
+}

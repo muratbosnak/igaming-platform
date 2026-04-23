@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { LogOut } from 'lucide-react'
 import type { ColorScheme } from '../theme'
 import { getTheme } from '../theme'
 
@@ -34,6 +35,7 @@ export type SidebarNavProps = {
   user?: SidebarUser
   colorScheme?: ColorScheme
   liveBadge?: boolean
+  onLogout?: () => void
 }
 
 export function SidebarNav({
@@ -42,6 +44,7 @@ export function SidebarNav({
   user = { name: 'Admin User', role: 'super-admin', initial: 'A' },
   colorScheme = 'indigo',
   liveBadge = true,
+  onLogout,
 }: SidebarNavProps) {
   const t = getTheme(colorScheme)
 
@@ -118,7 +121,17 @@ export function SidebarNav({
               <p className="text-xs font-medium text-zinc-200 truncate">{user.name}</p>
               <p className="text-[10px] text-zinc-500 truncate">{user.role}</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            {onLogout ? (
+              <button
+                onClick={onLogout}
+                aria-label="Log out"
+                className="text-zinc-500 hover:text-zinc-200 transition-colors shrink-0"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            ) : (
+              <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            )}
           </div>
         </div>
       )}

@@ -7,8 +7,8 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  allowedDevOrigins: ['muratbosnak'],
-  transpilePackages: ['@igaming/ui'],
+  allowedDevOrigins: ['b2b-admin.localhost'],
+  transpilePackages: ['@igaming/ui', '@igaming/database'],
 };
 
 export default nextConfig;

@@ -30,6 +30,7 @@ import type {
   AreaChartConfig,
   PieChartConfig,
 } from '@igaming/ui'
+import { logoutAction } from '@/app/actions'
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
@@ -260,16 +261,28 @@ const feedEvents: FeedEvent[] = [
   { time: '10:15', text: 'DB replica sync complete: EU-WEST-1', type: 'system' },
 ]
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// ─── Component ────────────────────────────────────────────────────────────────
 
-export default function B2BDashboard() {
+type DashboardPageProps = {
+  userEmail: string
+  isSuperAdmin: boolean
+}
+
+export function DashboardPage({ userEmail, isSuperAdmin }: DashboardPageProps) {
+  const sidebarUser = {
+    name: userEmail,
+    role: isSuperAdmin ? 'Super Admin' : 'Admin',
+    initial: (userEmail[0] ?? 'A').toUpperCase(),
+  }
+
   return (
     <div className="flex h-screen w-full flex-col lg:flex-row overflow-hidden bg-zinc-950 text-zinc-50">
       <SidebarNav
-        brand={{ name: 'Operator OS', abbr: 'B2B' }}
+        brand={{ name: 'B2B Admin', abbr: 'B2B' }}
         sections={navSections}
         colorScheme="emerald"
-        user={{ name: 'Network Admin', role: 'platform-admin', initial: 'N' }}
+        user={sidebarUser}
+        onLogout={logoutAction}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
