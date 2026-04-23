@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+
+# Product Owner Directives
+
+**Tradeoff:** These guidelines bias toward caution, accuracy, and test-backed stability over raw speed. 
+
+## 1. Think Before Coding
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+## 2. Simplicity First
+**Minimum code that solves the problem. Nothing speculative.**
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- If you write 200 lines and it could be 50, rewrite it. 
+
+## 3. Surgical Changes
+**Touch only what you must. Clean up only your own mess.**
+- Don't "improve" adjacent code, comments, or formatting.
+- Match existing Tailwind/UI style exactly. Do not break flexbox layouts.
+- If you notice unrelated dead code, mention it — don't delete it.
+
+## 4. Goal-Driven Execution & TDD
+**Define success criteria and write tests for business logic.**
+- For any new feature or multi-step task, state a brief step-by-step plan for approval.
+- **Test-Driven Development:** For any backend logic, database schema changes, authentication flows, or utility functions, you MUST write the unit test (e.g., using Vitest/Jest) *before* implementing the code.
+- UI components do not require strict TDD unless they contain complex state machines.
+- Wait for the user's explicit approval on the plan before modifying files.
