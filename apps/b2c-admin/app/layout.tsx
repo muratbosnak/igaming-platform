@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from 'sonner'
 import './globals.css'
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en" className="bg-zinc-950">
       <body className={`${inter.className} font-sans antialiased bg-zinc-950 text-zinc-50`}>
         {children}
+        <Toaster position="top-right" richColors theme="dark" />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

@@ -7,7 +7,7 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  allowedDevOrigins: ['b2b-admin.localhost'],
+  allowedDevOrigins: ['*.localhost'],
   transpilePackages: ['@igaming/ui', '@igaming/database'],
 };
 

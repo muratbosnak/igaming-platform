@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   AreaChart,
   Area,
@@ -49,6 +49,17 @@ const tooltipStyle = {
 }
 
 export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
+  // Recharts' <ResponsiveContainer> uses a ResizeObserver that occasionally
+  // measures 0×0 on its very first layout pass (most often after a route
+  // transition or inside deeply-nested flex/grid trees), and because it only
+  // re-renders on *size changes* the chart then never becomes visible. Gating
+  // the Recharts subtree on a post-mount flag guarantees the observer is
+  // attached after the parent has a real laid-out size.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
       {/* Area Chart */}
@@ -71,6 +82,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
         </div>
         <div className="px-4 pb-4">
           <div className="w-full h-[300px] min-h-[300px]">
+            {mounted ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={areaChart.data}
@@ -124,6 +136,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
                 ))}
               </AreaChart>
             </ResponsiveContainer>
+            ) : null}
           </div>
         </div>
       </div>
@@ -137,6 +150,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
         </div>
         <div className="px-4 pb-4 flex flex-col items-center">
           <div className="w-full h-[300px] min-h-[300px]">
+            {mounted ? (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -162,6 +176,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
                 />
               </PieChart>
             </ResponsiveContainer>
+            ) : null}
           </div>
           <div className="space-y-2 w-full mt-1">
             {pieChart.data.map((item, i) => (

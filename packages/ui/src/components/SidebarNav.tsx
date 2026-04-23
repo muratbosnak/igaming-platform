@@ -22,6 +22,7 @@ export type NavSection = {
 export type SidebarBrand = {
   name: string
   abbr: string
+  logoSrc?: string
 }
 
 export type SidebarUser = {
@@ -36,7 +37,7 @@ export type SidebarNavProps = {
   user?: SidebarUser
   colorScheme?: ColorScheme
   liveBadge?: boolean
-  onLogout?: () => void
+  onLogout?: () => void | Promise<void>
 }
 
 export function SidebarNav({
@@ -53,12 +54,25 @@ export function SidebarNav({
     <aside className="hidden lg:flex w-64 flex-shrink-0 flex-col h-full bg-zinc-900 border-r border-zinc-800">
       {/* Logo */}
       <div className="h-14 flex items-center px-4 border-b border-zinc-800 gap-2.5 shrink-0">
-        <div
-          className={`w-7 h-7 rounded ${t.accentBg} flex items-center justify-center shrink-0`}
-        >
-          <span className="text-[11px] font-bold text-white">{brand.abbr}</span>
-        </div>
-        <span className="text-sm font-semibold text-zinc-100 tracking-tight">{brand.name}</span>
+        {brand.logoSrc ? (
+          <img
+            src={brand.logoSrc}
+            alt={`${brand.name} logo`}
+            className="h-7 w-auto max-w-[88px] object-contain shrink-0"
+            onError={(event) => {
+              event.currentTarget.style.display = 'none'
+            }}
+          />
+        ) : (
+          <>
+            <div
+              className={`w-7 h-7 rounded ${t.accentBg} flex items-center justify-center shrink-0`}
+            >
+              <span className="text-[11px] font-bold text-white">{brand.abbr}</span>
+            </div>
+            <span className="text-sm font-semibold text-zinc-100 tracking-tight">{brand.name}</span>
+          </>
+        )}
         {liveBadge && (
           <span
             className={`ml-auto text-[10px] ${t.accentSubtle} ${t.accentText} border ${t.accentBorder} px-1.5 py-0 rounded font-medium`}
@@ -140,13 +154,15 @@ export function SidebarNav({
               <p className="text-[10px] text-zinc-500 truncate">{user.role}</p>
             </div>
             {onLogout ? (
-              <button
-                onClick={onLogout}
-                aria-label="Log out"
-                className="text-zinc-500 hover:text-zinc-200 transition-colors shrink-0"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
+              <form action={onLogout as () => void}>
+                <button
+                  type="submit"
+                  aria-label="Log out"
+                  className="text-zinc-500 hover:text-zinc-200 transition-colors shrink-0"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </form>
             ) : (
               <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
             )}
