@@ -11,8 +11,10 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@igaming/auth": "workspace:*",
     "@igaming/database": "workspace:*",
     "@igaming/ui": "workspace:*",
+    "@igaming/utils": "workspace:*",
     "bcryptjs": "^3.0.2",
     "next": "16.2.4",
     "next-auth": "beta",

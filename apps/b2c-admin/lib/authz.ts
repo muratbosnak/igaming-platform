@@ -1,10 +1,10 @@
 import { headers } from 'next/headers'
 import { auth } from '@/auth'
+import { assertOperatorAdminSession } from '@igaming/auth'
+import type { AuthenticatedOperatorAdmin } from '@igaming/auth'
 import { getOperatorLogoSrc, getOperatorSlug, resolveOperatorFromHost } from './operator-host'
-import { assertOperatorAdminSession } from './authz-assert'
-import type { AuthenticatedOperatorAdmin } from './authz-assert'
 
-export type { AuthenticatedOperatorAdmin } from './authz-assert'
+export type { AuthenticatedOperatorAdmin }
 
 /**
  * Single entry point for all server components and server actions that need

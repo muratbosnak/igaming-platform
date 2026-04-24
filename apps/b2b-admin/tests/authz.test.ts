@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assertSuperAdminSession } from '@/lib/authz-assert'
+import { assertSuperAdminSession } from '@igaming/auth'
 
 describe('requireSuperAdmin guard', () => {
   it('throws for missing session', () => {

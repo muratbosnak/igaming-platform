@@ -1,8 +1,8 @@
 import { auth } from '@/auth'
-import { assertSuperAdminSession } from './authz-assert'
-import type { AuthenticatedSuperAdmin } from './authz-assert'
+import { assertSuperAdminSession } from '@igaming/auth'
+import type { AuthenticatedSuperAdmin } from '@igaming/auth'
 
-export type { AuthenticatedSuperAdmin } from './authz-assert'
+export type { AuthenticatedSuperAdmin }
 
 export async function requireSuperAdmin(): Promise<AuthenticatedSuperAdmin> {
   const session = await auth()

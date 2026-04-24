@@ -2,7 +2,8 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { compare } from 'bcryptjs'
 import { prisma } from '@igaming/database'
-import { canAccessB2BAdmin } from '@/lib/auth-policy'
+import { normalizeEmail } from '@igaming/utils'
+import { canAccessB2BAdmin } from '@igaming/auth'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -22,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null
           }
 
-          const email = emailRaw.trim().toLowerCase()
+          const email = normalizeEmail(emailRaw)
           if (!email || !passwordRaw) {
             return null
           }

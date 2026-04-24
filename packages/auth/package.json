@@ -1,0 +1,18 @@
+{
+  "name": "@igaming/auth",
+  "version": "0.0.1",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@igaming/database": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

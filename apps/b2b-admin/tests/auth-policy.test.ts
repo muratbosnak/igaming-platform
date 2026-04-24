@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canAccessB2BAdmin } from '@/lib/auth-policy'
+import { canAccessB2BAdmin } from '@igaming/auth'
 
 describe('b2b admin login policy', () => {
   it('allows active super admins', () => {

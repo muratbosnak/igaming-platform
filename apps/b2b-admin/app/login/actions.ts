@@ -2,20 +2,10 @@
 
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
+import { isNextRedirect } from '@igaming/utils'
+import type { LoginActionState } from '@igaming/utils'
 
-export type LoginActionState = {
-  error?: string
-}
-
-function isNextRedirect(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'digest' in error &&
-    typeof (error as { digest?: unknown }).digest === 'string' &&
-    (error as { digest: string }).digest.startsWith('NEXT_REDIRECT')
-  )
-}
+export type { LoginActionState } from '@igaming/utils'
 
 export async function loginAction(
   _prev: LoginActionState | undefined,

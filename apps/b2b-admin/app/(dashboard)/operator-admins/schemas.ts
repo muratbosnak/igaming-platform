@@ -1,4 +1,5 @@
 import { BackofficeRole } from '@igaming/database'
+import { normalizeEmail } from '@igaming/utils'
 import { z } from 'zod'
 
 export const listFiltersSchema = z.object({
@@ -32,10 +33,6 @@ export const toggleStatusSchema = z.object({
   userId: z.string().uuid(),
   isActive: z.boolean(),
 })
-
-function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase()
-}
 
 function parseOperatorIds(formData: FormData): string[] {
   return formData

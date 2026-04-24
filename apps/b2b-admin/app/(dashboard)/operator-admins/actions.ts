@@ -11,7 +11,7 @@ import {
   toggleStatusSchema,
 } from './schemas'
 
-export type ActionResult = { ok: true; message: string } | { ok: false; message: string }
+export type { ActionResult } from '@igaming/utils'
 
 export async function getOperatorAdminDirectory(rawFilters: {
   email?: string
