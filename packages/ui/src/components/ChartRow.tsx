@@ -57,7 +57,8 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
   // attached after the parent has a real laid-out size.
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
-    setMounted(true)
+    const id = setTimeout(() => setMounted(true), 50)
+    return () => clearTimeout(id)
   }, [])
 
   return (
@@ -83,7 +84,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
         <div className="px-4 pb-4">
           <div className="w-full h-[300px] min-h-[300px]">
             {mounted ? (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <AreaChart
                 data={areaChart.data}
                 margin={{ top: 4, right: 4, left: -12, bottom: 0 }}
@@ -151,7 +152,7 @@ export function ChartRow({ areaChart, pieChart }: ChartRowProps) {
         <div className="px-4 pb-4 flex flex-col items-center">
           <div className="w-full h-[300px] min-h-[300px]">
             {mounted ? (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <PieChart>
                 <Pie
                   data={pieChart.data}

@@ -32,6 +32,8 @@ export const proxy = auth((req) => {
   const { pathname } = req.nextUrl
   const isLoggedIn = Boolean(req.auth?.user?.email)
 
+  
+
   // Always let NextAuth's own routes through — they handle their own state
   if (pathname.startsWith('/api/auth')) {
     return NextResponse.next()
@@ -91,6 +93,6 @@ export const proxy = auth((req) => {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next|__nextjs_font|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

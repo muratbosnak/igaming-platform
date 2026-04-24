@@ -7,7 +7,11 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  allowedDevOrigins: ['*.localhost'],
+  allowedDevOrigins: [
+    '*.localhost', 
+    'admin.kinetika.localhost', 
+    'admin.mbcasino.localhost'
+  ],
   transpilePackages: ['@igaming/ui', '@igaming/database'],
 };
 
